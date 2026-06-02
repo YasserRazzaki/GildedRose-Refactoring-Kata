@@ -63,4 +63,16 @@ class NormalItems {
     }
 }
 
+    @Nested
+    @DisplayName("Aged Brie")
+    class AgedBrieTests {
+
+        @Test
+        @DisplayName("qualité augmente avec le temps")
+        void quality_increases_over_time() {
+            Item[] items = createItems(new Item("Aged Brie", 10, 20));
+            updateQuality(items);
+            assertEquals(21, items[0].quality);
+        }
+    }
 }
