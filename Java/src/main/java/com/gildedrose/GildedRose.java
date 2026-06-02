@@ -40,7 +40,21 @@ class GildedRose {
     }
 
     private void updateBackstage(Item item) {
+        increaseQuality(item);
 
+        if (item.sellIn < 11) {
+            increaseQuality(item);
+        }
+
+        if (item.sellIn < 6) {
+            increaseQuality(item);
+        }
+
+        item.sellIn--;
+
+        if (isExpired(item)) {
+            item.quality = 0;
+        }
     }
 
     private void updateAgedBrie(Item item) {
