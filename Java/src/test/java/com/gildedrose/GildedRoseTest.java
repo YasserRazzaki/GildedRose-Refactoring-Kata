@@ -74,5 +74,30 @@ class NormalItems {
             updateQuality(items);
             assertEquals(21, items[0].quality);
         }
+
+        @Test
+        @DisplayName("qualité augmente 2x plus vite après péremption")
+        void quality_increases_twice_after_sell_date() {
+            Item[] items = createItems(new Item("Aged Brie", 0, 20));
+            updateQuality(items);
+            assertEquals(22, items[0].quality);
+        }
+
+        @Test
+        @DisplayName("qualité ne dépasse jamais 50")
+        void quality_never_exceeds_50() {
+            Item[] items = createItems(new Item("Aged Brie", 10, 50));
+            updateQuality(items);
+            assertEquals(50, items[0].quality);
+        }
+
+        @Test
+        @DisplayName("qualité ne dépasse jamais 50 même après péremption")
+        void quality_never_exceeds_50_after_sell_date() {
+            Item[] items = createItems(new Item("Aged Brie", -1, 49));
+            updateQuality(items);
+            assertEquals(50, items[0].quality);
+        }
+
     }
 }
