@@ -33,11 +33,28 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("qualité diminue 2x plus vite après date")
+    @DisplayName("qualité diminue 2x plus vite après date d'expiration")
     void quality_decreases_twice_as_fast_after_sell_date() {
-        Item[] items = createItems(new Item("Nouveau Item", 0, 20));
+        Item[] items = createItems(new Item("Nouveau Item", 0, 0));
         updateQuality(items);
         assertEquals(-1, items[0].sellIn);
-        assertEquals(18, items[0].quality);
+        assertEquals(0, items[0].quality);
     }
+
+    @Test
+    @DisplayName("qualité n'est jamais négative")
+    void quality_never_negative() {
+        Item[] items = createItems(new Item("test item", 4, 0));
+        updateQuality(items);
+        assertEquals(0, items[0].quality);
+    }
+
+    @Test
+    @DisplayName("qualité n'est jamais négative même après expiration")
+    void quality_never_negative_after_sell_date() {
+        Item[] items = createItems(new Item("test item", 1, 0));
+        updateQuality(items);
+        assertEquals(0, items[0].quality);
+    }
+
 }
