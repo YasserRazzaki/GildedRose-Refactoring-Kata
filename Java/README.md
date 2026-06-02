@@ -1,30 +1,16 @@
-# Gilded Rose starting position in Java
+# Gilded Rose - Refactoring & Feature Conjured
 
-## Run the TextTest Fixture from Command-Line
+Ce projet contient une version nettoyée, lisible et évolutive du **Gilded Rose Kata** réalisée par mes soins en Java, incluant la nouvelle fonctionnalité **Conjured**.
 
-```
-./gradlew -q text
-```
+## Structure du Code
 
-### Specify Number of Days
+Le code a été entièrement refactorisé pour supprimer les `if/else` imbriqués et isoler la logique par type de produit.
 
-For e.g. 10 days:
+Chaque type d'item possède sa propre méthode dédiée, ce qui rend le code séquentiel et très facile à maintenir.
 
-```
-./gradlew -q text --args 10
-```
+## Suite de Tests
 
-You should make sure the gradle commands shown above work when you execute them in a terminal before trying to use TextTest (see below).
+Le projet contient une suite de tests unitaires structurée avec `@Nested` sous JUnit 5. Chaque composant possède son propre groupe de tests pour valider les comportements nominaux et les cas spéciaux.
 
-
-## Run the TextTest approval test that comes with this project
-
-There are instructions in the [TextTest Readme](../texttests/README.md) for setting up TextTest. What's unusual for the Java version is there are two executables listed in [config.gr](../texttests/config.gr) for Java. The first uses Gradle wrapped in a python script. Uncomment these lines to use it:
-
-    executable:${TEXTTEST_HOME}/Java/texttest_rig.py
-    interpreter:python
-
-The other relies on your CLASSPATH being set correctly in [environment.gr](../texttests/environment.gr). Uncomment these lines to use it instead:
-
-    executable:com.gildedrose.TexttestFixture
-    interpreter:java
+Bonne visite,
+Yasser
