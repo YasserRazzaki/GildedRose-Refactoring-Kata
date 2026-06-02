@@ -202,6 +202,31 @@ class NormalItems {
     }
 
     @Nested
+    @DisplayName("Conjured Items")
+    class ConjuredTests {
+        @Test
+        @DisplayName("la qualité diminue 2x plus vite qu'un item normal")
+        void conjured_quality_decreases_twice_as_fast() {
+            Item[] items = createItems(new Item("Conjured Mana Cake", 10, 20));
+            updateQuality(items);
+            assertEquals(9, items[0].sellIn);
+            assertEquals(18, items[0].quality);
+        }
+
+
+        @Test
+        @DisplayName("la qualité diminue 4x plus vite après expiration")
+        void conjured_quality_decreases_four_times_as_fast_after_expiring() {
+            Item[] items = createItems(new Item("Conjured Mana Cake", 0, 20));
+            updateQuality(items);
+            assertEquals(-1, items[0].sellIn);
+            assertEquals(16, items[0].quality);
+        }
+
+    }
+
+
+    @Nested
     @DisplayName("Cas spéciaux de tests")
     class SpecialCasesTests {
 

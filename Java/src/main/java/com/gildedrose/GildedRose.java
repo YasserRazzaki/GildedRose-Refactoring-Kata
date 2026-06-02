@@ -39,7 +39,14 @@ class GildedRose {
     }
 
     private void updateConjuredItem(Item item) {
+        item.sellIn--;
+        decreaseQuality(item);
+        decreaseQuality(item);
 
+        if(isExpired(item)) {
+            decreaseQuality(item);
+            decreaseQuality(item);
+        }
     }
 
     private boolean isConjured(Item item) {
