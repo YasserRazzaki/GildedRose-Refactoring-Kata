@@ -13,62 +13,42 @@ class GildedRose {
     public void updateQuality() {
         for (Item item : items) {
 
-            if (isSulfuras(item))
+            if (isSulfuras(item)) {
                 continue;
-            
+            }
+
             if (isAgedBrie(item)) {
-                updateAgedBrie(item); 
+                updateAgedBrie(item);
+                continue;
             }
 
             if (isBackstage(item)) {
                 updateBackstage(item);
+                continue;
             }
-            else {
-                updateNormalItem(item);
-            }
+            updateNormalItem(item);
 
-            if (!isAgedBrie(item)
-                && !isBackstage(item)) {
-                if (item.quality > 0) {
-                        decreaseQuality(item);
-                }
-            } else {
-                if (item.quality < 50) {
-                    increaseQuality(item);
-                    if (isBackstage(item)) {
-                        if (item.sellIn < 11) increaseQuality(item);
-
-                        if (item.sellIn < 6) increaseQuality(item);
-                    }
-                }
-            }
-
-            if (!isSulfuras(item)) {
-                item.sellIn--;
-            }
-
-            if (isExpired(item)) {
-                if (!isAgedBrie(item)) {
-                    if (!isBackstage(item)) {
-                        if (item.quality > 0) {
-                                decreaseQuality(item);
-                        }
-                    } else {
-                        item.quality = 0;
-                        // item.quality = item.quality - item.quality;
-                    }
-                } else increaseQuality(item);
-            }
         }
     }
 
     private void updateNormalItem(Item item) {
+        item.sellIn--;
+        decreaseQuality(item);
+        if(isExpired(item)) {
+            decreaseQuality(item);
+        }
     }
 
     private void updateBackstage(Item item) {
+
     }
 
     private void updateAgedBrie(Item item) {
+        item.sellIn--;
+        increaseQuality(item);
+        if(isExpired(item)) {
+            increaseQuality(item);
+        }
     }
 
     private static void decreaseQuality(Item item) {
