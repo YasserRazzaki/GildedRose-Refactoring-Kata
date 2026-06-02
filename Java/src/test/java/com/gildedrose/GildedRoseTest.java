@@ -7,14 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GildedRoseTest {
 
-    @Test
-    void foo() {
-        Item[] items = new Item[] { new Item("fixme", 0, 0) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals("fixme", app.items[0].name);
-    }
-
     private Item[] createItems(Item... items) {
         return items;
     }
@@ -40,16 +32,16 @@ class NormalItems {
     @Test
     @DisplayName("qualité diminue 2x plus vite après date d'expiration")
     void quality_decreases_twice_as_fast_after_sell_date() {
-        Item[] items = createItems(new Item("Nouveau Item", 0, 0));
+        Item[] items = createItems(new Item("Normal Item", 0, 20));
         updateQuality(items);
         assertEquals(-1, items[0].sellIn);
-        assertEquals(0, items[0].quality);
+        assertEquals(18, items[0].quality);
     }
 
     @Test
     @DisplayName("qualité n'est jamais négative")
     void quality_never_negative() {
-        Item[] items = createItems(new Item("test item", 4, 0));
+        Item[] items = createItems(new Item("Normal Item", 4, 0));
         updateQuality(items);
         assertEquals(0, items[0].quality);
     }
@@ -57,7 +49,7 @@ class NormalItems {
     @Test
     @DisplayName("qualité n'est jamais négative même après expiration")
     void quality_never_negative_after_sell_date() {
-        Item[] items = createItems(new Item("test item", 1, 0));
+        Item[] items = createItems(new Item("Normal Item", 0, 0));
         updateQuality(items);
         assertEquals(0, items[0].quality);
     }
@@ -107,14 +99,14 @@ class NormalItems {
 
         @Test
         @DisplayName("qualité n'excède jamais 80")
-        void quality_never_exceeds_80() {
+        void quality_remains_always_80() {
             Item[] items = createItems(new Item("Sulfuras, Hand of Ragnaros", 10, 80));
             updateQuality(items);
             assertEquals(80, items[0].quality);
         }
 
         @Test
-        @DisplayName("qualité n'excède jamais 80")
+        @DisplayName("sellIn ne change jamais")
         void sellIn_never_changes() {
             Item[] items = createItems(new Item("Sulfuras, Hand of Ragnaros", 10, 80));
             updateQuality(items);
@@ -196,6 +188,44 @@ class NormalItems {
             assertEquals(50, items[0].quality);
         }
 
+        @Test
+        @DisplayName("qualité +1 à la frontière supérieure (sellIn = 11)")
+        void backstage_passes_quality_increases_by_1_at_sell_in_11() {
+            Item[] items = createItems(
+                new Item("Backstage passes to a TAFKAL80ETC concert", 11, 20)
+            );
+            updateQuality(items);
+            assertEquals(10, items[0].sellIn);
+            assertEquals(21, items[0].quality);
+        }
+
+    }
+
+    @Nested
+    @DisplayName("Cas spéciaux de tests")
+    class SpecialCasesTests {
+
+        @Test
+        @DisplayName("sellIn negatif pour item normal")
+        void normal_item_with_very_negative_sellIn() {
+            Item[] items = createItems(new Item("Normal", -10, 10));
+            updateQuality(items);
+            assertEquals(8, items[0].quality);
+        }
+
+        @Test
+        @DisplayName("plusieurs items en meme temps")
+        void multiple_items_updated_together() {
+            Item[] items = createItems(
+                new Item("Normal Item", 10, 20),
+                new Item("Aged Brie", 5, 30),
+                new Item("Sulfuras, Hand of Ragnaros", 0, 80)
+            );
+            updateQuality(items);
+            assertEquals(19, items[0].quality);
+            assertEquals(31, items[1].quality);
+            assertEquals(80, items[2].quality);
+        }
     }
 
 }
