@@ -100,4 +100,35 @@ class NormalItems {
         }
 
     }
+
+    @Nested
+    @DisplayName("Sulfuras")
+    class SulfurasTests {
+
+        @Test
+        @DisplayName("qualité n'excède jamais 80")
+        void quality_never_exceeds_80() {
+            Item[] items = createItems(new Item("Sulfuras, Hand of Ragnaros", 10, 80));
+            updateQuality(items);
+            assertEquals(80, items[0].quality);
+        }
+
+        @Test
+        @DisplayName("qualité n'excède jamais 80")
+        void sellIn_never_changes() {
+            Item[] items = createItems(new Item("Sulfuras, Hand of Ragnaros", 10, 80));
+            updateQuality(items);
+            assertEquals(10, items[0].sellIn);
+        }
+
+        @Test
+        @DisplayName("même comportement des deux tests précédents avec sellIn négatif")
+        void same_behavioras_as_precedent_tests_with_negative_sellIn() {
+            Item[] items = createItems(new Item("Sulfuras, Hand of Ragnaros", -1, 80));
+            updateQuality(items);
+            assertEquals(-1, items[0].sellIn);
+            assertEquals(80, items[0].quality);
+        }
+
+    }
 }
