@@ -131,4 +131,71 @@ class NormalItems {
         }
 
     }
+
+    @Nested
+    @DisplayName("Backstage passes")
+    class BackstagePassesTests {
+
+        @Test
+        @DisplayName("qualité +1 quand sellIn > 10")
+        void quality_increases_by_1_when_sellIn_above_10() {
+            Item[] items = createItems(
+                new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20)
+            );
+            updateQuality(items);
+            assertEquals(21, items[0].quality);
+        }
+
+        @Test
+        @DisplayName("qualité +2 quand sellIn entre 6 et 10")
+        void quality_increases_by_2_when_sellIn_between_6_and_10() {
+            Item[] items = createItems(
+                new Item("Backstage passes to a TAFKAL80ETC concert", 10, 20)
+            );
+            updateQuality(items);
+            assertEquals(22, items[0].quality);
+        }
+
+        @Test
+        @DisplayName("qualité +2 quand sellIn = 6")
+        void quality_increases_by_2_when_sellIn_is_6() {
+            Item[] items = createItems(
+                new Item("Backstage passes to a TAFKAL80ETC concert", 6, 20)
+            );
+            updateQuality(items);
+            assertEquals(22, items[0].quality);
+        }
+
+        @Test
+        @DisplayName("qualité +3 quand sellIn entre 1 et 5")
+        void quality_increases_by_3_when_sellIn_between_1_and_5() {
+            Item[] items = createItems(
+                new Item("Backstage passes to a TAFKAL80ETC concert", 5, 20)
+            );
+            updateQuality(items);
+            assertEquals(23, items[0].quality);
+        }
+
+        @Test
+        @DisplayName("qualité tombe à 0 après le concert")
+        void quality_drops_to_0_after_concert() {
+            Item[] items = createItems(
+                new Item("Backstage passes to a TAFKAL80ETC concert", 0, 20)
+            );
+            updateQuality(items);
+            assertEquals(0, items[0].quality);
+        }
+
+        @Test
+        @DisplayName("qualité ne dépasse pas 50")
+        void quality_never_exceeds_50() {
+            Item[] items = createItems(
+                new Item("Backstage passes to a TAFKAL80ETC concert", 5, 49)
+            );
+            updateQuality(items);
+            assertEquals(50, items[0].quality);
+        }
+
+    }
+
 }
