@@ -4,6 +4,7 @@ class GildedRose {
     public static final String Backstage = "Backstage passes to a TAFKAL80ETC concert";
     public static final String Sulfuras = "Sulfuras, Hand of Ragnaros";
     public static final String AGED_BRIE = "Aged Brie";
+    public static final String Conjured = "Conjured Mana Cake";
     Item[] items;
 
     public GildedRose(Item[] items) {
@@ -26,9 +27,23 @@ class GildedRose {
                 updateBackstage(item);
                 continue;
             }
+
+            if (isConjured(item)) {
+                updateConjuredItem(item);
+                continue;
+            }
+
             updateNormalItem(item);
 
         }
+    }
+
+    private void updateConjuredItem(Item item) {
+
+    }
+
+    private boolean isConjured(Item item) {
+        return item.name.equals(Conjured);
     }
 
     private void updateNormalItem(Item item) {
