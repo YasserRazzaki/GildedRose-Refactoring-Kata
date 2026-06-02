@@ -1,6 +1,7 @@
 package com.gildedrose;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,6 +23,10 @@ class GildedRoseTest {
         GildedRose app = new GildedRose(items);
         app.updateQuality();
     }
+
+@Nested
+@DisplayName("Items normaux")
+class NormalItems {
 
     @Test
     @DisplayName("qualité et sellIn diminuent de 1 chaque jour")
@@ -56,5 +61,6 @@ class GildedRoseTest {
         updateQuality(items);
         assertEquals(0, items[0].quality);
     }
+}
 
 }
